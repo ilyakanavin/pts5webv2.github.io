@@ -13,16 +13,16 @@ const levelsOfDifficulty = {
     colors: getArrayOfRandomColors(2),
   },
   medium: {
-    size: 6,
-    count: 12,
-    time: 120,
-    colors: getArrayOfRandomColors(4),
+    size: 4,
+    count: 8,
+    time: 80,
+    colors: getArrayOfRandomColors(3),
   },
   hard: {
-    size: 9,
-    count: 16,
-    time: 180,
-    colors: getArrayOfRandomColors(8),
+    size: 5,
+    count: 10,
+    time: 80,
+    colors: getArrayOfRandomColors(4),
   }
 };
 
