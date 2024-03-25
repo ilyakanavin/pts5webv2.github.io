@@ -506,20 +506,21 @@ class AppState {
 
   // Функция для рендеринга кнопки сброса игры.
   renderResetButton = (id = "score-board", title = "Reset game") => {
-    const button = document.createElement("button");
-    button.innerHTML = title;
+    const button = document.createElement("button"); // Создание кнопки сброса.
+    button.innerHTML = title; // Установка текста кнопки.
 
+    // Обработчик нажатия на кнопку сброса.
     button.onclick = () => {
       if (this.game_ && this.timer) {
-        delete this.game_;
-        this.stopGame();
+        delete this.game_; // Удаление текущей игры.
+        this.stopGame(); // Остановка игры.
       }
-      this.renderStart();
+      this.renderStart(); // Возвращение к стартовому экрану.
     };
-    const element = document.getElementById(id ?? "score-board");
-    element.append(button);
-  };
+    const element = document.getElementById(id ?? "score-board"); // Получение элемента для добавления кнопки.
+    element.append(button); // Добавление кнопки в элемент.
 
+  };
 
   // Основная функция для отображения игрового интерфейса и управления игровым процессом.
   SCOREBOARD = (cubeSize) => {
@@ -620,47 +621,51 @@ class AppState {
 
   // Функция для рендеринга экрана окончания игры.
   renderEnd = () => {
-    document.body.innerHTML = endHTML;
+    document.body.innerHTML = endHTML; // Установка HTML содержимого для экрана окончания игры.
 
-    const gameEnd = document.getElementById("end");
+    const gameEnd = document.getElementById("end"); // Получение контейнера для экрана окончания игры.
     const gameScoreId = "game-score";
-    const score = document.getElementById(gameScoreId);
-    score.innerHTML = this.state.score;
+    const score = document.getElementById(gameScoreId); // Получение элемента для отображения итогового счета.
+    score.innerHTML = this.state.score; // Вывод итогового счета.
 
     const leaderboard_ = document.createElement("div");
     leaderboard_.id = "leaderboard";
-    gameEnd.appendChild(leaderboard_);
+    gameEnd.appendChild(leaderboard_); // Добавление раздела для таблицы лидеров.
 
     const h1 = document.createElement("h1");
-    h1.innerHTML = "Leaderboard";
+    h1.innerHTML = "Leaderboard"; // Заголовок для таблицы лидеров.
     leaderboard_.appendChild(h1);
 
+    // Добавление результатов текущей игры в хранилище и обновление таблицы лидеров.
     ls.add([this.state.name, this.state.score]);
     ls.set(ls.leaderboard);
 
     const board = document.createElement("div");
-    board.id = "res-board";
+    board.id = "res-board"; // Контейнер для отображения результатов игры.
     leaderboard_.appendChild(board);
 
+    // Формирование шапки таблицы лидеров.
     let p = document.createElement("p");
     p.innerHTML = `<div class="line" style="border-bottom: 1px solid black;"> 
-      <p>name</p>
-      <p>score</p>
-    </div>`;
+  <p>name</p>
+  <p>score</p>
+</div>`;
     board.appendChild(p);
 
+    // Добавление записей о каждом участнике в таблицу лидеров.
     for (let l of ls.leaderboard) {
       let p = document.createElement("p");
       p.innerHTML = `<div class="line"> 
-        <p>${l[0]}</p>
-        <p>${l[1]}</p>
-      </div>`;
+    <p>${l[0]}</p>
+    <p>${l[1]}</p>
+  </div>`;
       board.appendChild(p);
     }
 
-    this.renderResetButton("leaderboard", "Go back to main menu");
-  };
+    // Добавление кнопки для возврата к главному меню.
+    this.renderResetButton("Рейтинг игроков", "Вернуться в главное меню");
 
+  };
 }
 
 // Создание экземпляра класса AppState для запуска приложения.
