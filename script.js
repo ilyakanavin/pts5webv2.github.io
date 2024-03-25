@@ -117,35 +117,38 @@ class Cube {
   };
 
   dragElement = (elmnt) => {
-    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+  let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
-    // Заменим непосредственное назначение на addEventListener
-    elmnt.addEventListener("mousedown", dragMouseDown);
-    function dragMouseDown(e) {
+  const dragMouseDown = (e) => {
       e.preventDefault();
+      // Получаем начальную позицию курсора:
       pos3 = e.clientX;
       pos4 = e.clientY;
       document.addEventListener("mouseup", closeDragElement);
       document.addEventListener("mousemove", elementDrag);
-    }
+  };
 
-    const elementDrag = (e) => {
+  const elementDrag = (e) => {
       e.preventDefault();
-      // Вычислим новое положение курсора
+      // Вычисляем новую позицию:
       pos1 = pos3 - e.clientX;
       pos2 = pos4 - e.clientY;
       pos3 = e.clientX;
       pos4 = e.clientY;
-      // Установим новое положение элемента
-      elmnt.style.position = "absolute";
+      // Применяем новую позицию к элементу:
       elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
       elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-    };
-    function closeDragElement() {
-        document.removeEventListener("mouseup", closeDragElement);
-        document.removeEventListener("mousemove", elementDrag);
-    }
   };
+
+  const closeDragElement = () => {
+      // Удаляем обработчики событий:
+      document.removeEventListener("mouseup", closeDragElement);
+      document.removeEventListener("mousemove", elementDrag);
+  };
+
+  elmnt.addEventListener("mousedown", dragMouseDown);
+};
+
 }
 const style = 0;
 
