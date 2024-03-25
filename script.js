@@ -36,15 +36,8 @@ class SoundEffect {
     SoundEffect.instance = this;
 
     // Инициализация аудиофайлов
-    this.wrong_ = new Audio("./sounds/wrong.mp3");
     this.cool_ = new Audio("./sounds/cool.mp3");
   }
-
-  // Метод для воспроизведения звука "ошибки" с заданной громкостью
-  wrong = () => {
-    this.wrong_.volume = 0.5;
-    this.wrong_.play();
-  };
 
   // Метод для воспроизведения "приятного" звука с заданной громкостью
   cool = () => {
@@ -139,7 +132,6 @@ class Game {
           this.trigger(true);
         } else {
           this.trigger(false);
-          new SoundEffect().wrong(); // Воспроизведение звука для неправильного выбора
           this.cubes[idx].cube.classList.add("wrong");
 
           // Удаление класса "wrong" через 1 секунду
@@ -213,7 +205,7 @@ class Input {
     this.input = document.createElement("input");
     this.input.className = "input";
     this.input.type = "text";
-    this.input.placeholder = "Введите ваще имя";
+    this.input.placeholder = "Введите ваше имя";
 
     // Слушатель изменений значения input
     this.input.addEventListener("change", (e) => {
@@ -616,7 +608,7 @@ class AppState {
       board.appendChild(p);
     }
 
-    this.renderResetButton("leaderboard", "Go back to main menu");
+    this.renderResetButton("leaderboard", "Вернуться в главное меню");
   };
 }
 
