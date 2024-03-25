@@ -34,12 +34,7 @@ const difficulty = {
       getRandomColor(),
       getRandomColor(),
     ],
-  },
-  impossible: {
-    size: 22,
-    count: 25,
-    time: 200,
-  },
+  }
 };
 
 class SoundEffect {
