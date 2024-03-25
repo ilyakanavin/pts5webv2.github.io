@@ -213,7 +213,7 @@ class Input {
     this.input = document.createElement("input");
     this.input.className = "input";
     this.input.type = "text";
-    this.input.placeholder = "Enter your name";
+    this.input.placeholder = "Введите ваще имя";
 
     // Слушатель изменений значения input
     this.input.addEventListener("change", (e) => {
@@ -275,7 +275,7 @@ class Timer extends State {
 // HTML-разметка для стартовой формы
 const startHTML = `
   <form id="start">
-    <button type="submit" id="start">Start</button>
+    <button type="submit" id="start">Начать игру</button>
   </form>
 `;
 
@@ -329,7 +329,7 @@ class LocalSTORAGE {
 
 const endHTML = `
 <div id="end">
-  <h1>Game over</h1>
+  <h1>Игра окончена</h1>
   <p>Your score is: <span id='game-score'></span></p>
 </div>
 `;
