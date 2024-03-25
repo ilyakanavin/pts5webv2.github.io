@@ -16,6 +16,7 @@
   border: 1px solid #BDBDBD;
   min-width: 1%;
   width: 20%;
+  margin: 10px;
 
   height: auto; /* Новое значение, делает высоту автоматической на основе содержимого */
   position: relative;
