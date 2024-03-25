@@ -352,321 +352,273 @@ class Error {
   }
 }
 
-// Определение класса AppState, управляющего основным состоянием игры.
 class AppState {
-  // Конструктор класса, инициализирующий начальное состояние игры.
   constructor() {
-    // Инициализация начального состояния приложения.
     this.state = {
-      time: 180, // Время на игру в секундах.
-      score: 0, // Начальный счет.
-      difficulty: "easy", // Уровень сложности по умолчанию.
-      stage: 0, // Текущий этап игры.
-      leaderboard: [], // Таблица лидеров.
+      time: 180,
+      score: 0,
+      difficulty: "easy",
+      stage: 0,
+      leaderboard: [],
     };
 
-    // Вызов функции для рендеринга стартового экрана.
     this.renderStart();
   }
 
   renderStart = () => {
-    document.body.innerHTML = ""; // Очистка содержимого тела документа.
-    const body = document.getElementById("app"); // Получение элемента, в который будет рендериться игра.
-  
-    const body_ = document.createElement("div"); // Создание нового div-элемента для стартового экрана.
+    document.body.innerHTML = "";
+    const body = document.getElementById("app");
+
+    const body_ = document.createElement("div");
+
     body_.className = "start_container";
     body_.id = "start_container";
     body_.innerHTML = "";
-    body.append(body_); // Добавление контейнера в DOM.
-  
-    // Создание div для дополнительного контента и добавление его перед элементами управления.
-    const div = document.createElement("div");
-    div.innerHTML = startHTML; // Настройка HTML содержимого.
-    body_.appendChild(div); // Добавление div в контейнер стартового экрана.
-  
-    // Создание и добавление элементов управления на стартовый экран.
+
+    body.append(body_);
+
     const input = new Input();
-    input.appendTo("start_container"); // Добавление поля ввода для имени игрока.
-  
-    const select = new ButtonSelector(Object.keys(difficulty)); // Создание селектора сложности.
-    select.appendTo("start_container"); // Добавление селектора на экран.
-  
-    // Обработчик события отправки формы.
+    input.appendTo("start_container");
+
+    const select = new ButtonSelector(Object.keys(difficulty));
+    select.appendTo("start_container");
+    const div = document.createElement("div");
+    div.innerHTML = startHTML;
+    body_.appendChild(div);
+
     const form = document.getElementById("start");
     form.onsubmit = (e) => {
-      e.preventDefault(); // Предотвращение стандартного действия формы.
-  
-      // Проверка введенных данных и установка состояния приложения.
+      e.preventDefault();
+
       if (input.state && input.state.length > 0) {
-        this.state.name = input.state ?? "ANONYMOUS USER"; // Установка имени игрока.
-        this.state.difficulty = select.state; // Установка выбранной сложности.
-        // Настройка параметров игры в соответствии с выбранной сложностью.
+        this.state.name = input.state ?? "ANONYMOUS USER";
+        this.state.difficulty = select.state;
         this.state.size = difficulty[select.state].size;
         this.state.time = difficulty[select.state].time;
-  
-        this.cubeCount = difficulty[select.state].count; // Количество кубов.
-        this.renderGame(); // Переход к рендерингу игры.
+
+        this.cubeCount = difficulty[select.state].count;
+        this.renderGame();
       } else {
-        // Вывод ошибки, если данные не введены.
-        new Error("Выберите сложность или введите имя игрока, данные не введены");
+        new Error(
+          "Выберите сложность или введите имя игрока, данные не введены"
+        );
       }
     };
   };
-  
 
-  // Функция для изменения размера куба и добавления его на доску счета.
   changeCubeSizeAndAppendToScoreBoard = (cubeSize) => {
-    const winningCube = this.game_.cubes[this.game_.gameWinningCubeIndex]; // Получение выигрышного куба.
-    const node = winningCube.cube.cloneNode(true); // Клонирование куба.
+    const winningCube = this.game_.cubes[this.game_.gameWinningCubeIndex];
+    const node = winningCube.cube.cloneNode(true);
 
-    const scoreBoard = document.getElementById("score-board"); // Получение доски счета.
+    const scoreBoard = document.getElementById("score-board");
 
-    // Настройка стилей куба для отображения в доске счета.
     node.style.width = `${this.previewSize}px`;
     node.style.height = `${this.previewSize}px`;
     node.style.rotate = "0deg";
     node.style.transform = "rotate(0deg)";
 
-    // Изменение размеров элементов куба.
     const divs = node.getElementsByClassName("cube__item");
+
     for (let i = 0; i < divs.length; i++) {
       divs[i].style.width = `${this.previewSize / cubeSize}px`;
       divs[i].style.height = `${this.previewSize / cubeSize}px`;
     }
 
-    // Удаление предыдущего куба с доски счета, если он есть.
     const el = scoreBoard.getElementsByClassName("cube")[0];
     if (el) {
       scoreBoard.removeChild(el);
     }
 
-    // Добавление нового куба на доску счета.
     this.cube = node;
     scoreBoard.appendChild(node);
   };
 
-  // Функция для проверки размера предварительного просмотра.
   checkPreviewSize = () => {
-    // Вычисление размера предварительного просмотра на основе ширины доски счета.
     this.previewSize =
       document.getElementById("score-board").getBoundingClientRect().width - 50;
   };
 
-  // Функция для рендеринга никнейма игрока на доске счета.
   renderNickanme = () => {
-    const scoreBoard = document.getElementById("score-board"); // Получение доски счета.
-    const nickname = document.createElement("p"); // Создание элемента для никнейма.
+    const scoreBoard = document.getElementById("score-board");
+    const nickname = document.createElement("p");
     nickname.id = "nickname";
     nickname.style.textAlign = "center";
-    nickname.innerHTML = "Player: " + this.state.name; // Установка текста никнейма.
-    scoreBoard.append(nickname); // Добавление никнейма на доску счета.
+    nickname.innerHTML = "Player: " + this.state.name;
+    scoreBoard.append(nickname);
   };
 
-  // Функция для рендеринга кнопки окончания игры.
   renderEndGameButton = () => {
-    const button = document.createElement("button"); // Создание кнопки.
-    button.innerHTML = "End game"; // Установка текста кнопки.
+    const button = document.createElement("button");
+    button.innerHTML = "End game";
 
-    // Обработчик нажатия на кнопку для завершения игры.
     button.onclick = () => {
-      this.state.leaderboard.push([this.state.name, this.state.score]); // Добавление результата игры в таблицу лидеров.
-      this.stopGame(); // Остановка игры.
-      this.renderEnd(); // Переход к рендерингу окончания игры.
+      this.state.leaderboard.push([this.state.name, this.state.score]);
+      this.stopGame();
+      this.renderEnd();
     };
-    this.scoreBoard.append(button); // Добавление кнопки на доску счета.
+
+    this.scoreBoard.append(button);
   };
 
-  // Функция для рендеринга таймера и счета на доске счета.
   renderTimerAndScore = () => {
-
-    const scoreBoard = document.getElementById("score-board"); // Получение доски счета.
-
-    // Создание и настройка элемента таймера.
+    const scoreBoard = document.getElementById("score-board");
     const timer = document.createElement("p");
     timer.id = "timer";
     timer.style.textAlign = "center";
     timer.innerHTML = "Оставшееся время: " + this.state.time;
-    scoreBoard.append(timer); // Добавление таймера на доску счета.
+    scoreBoard.append(timer);
 
-    // Создание и настройка элемента для отображения счета.
+    // Score
     const score = document.createElement("p");
     score.id = "score";
     score.style.textAlign = "center";
     score.innerHTML = "Score: " + this.state.score;
-    scoreBoard.append(score); // Добавление счета на доску счета.
 
+    scoreBoard.append(score);
   };
 
-  // Функция для остановки игры.
   stopGame = () => {
-    this.timer.listeners = []; // Очистка слушателей таймера.
-    this.timer = null; // Удаление таймера.
-    this.score = 0; // Сброс счета.
+    this.timer.listeners = [];
+    this.timer = null;
+    this.score = 0;
   };
 
-  // Функция для рендеринга кнопки сброса игры.
   renderResetButton = (id = "score-board", title = "Reset game") => {
-    const button = document.createElement("button"); // Создание кнопки сброса.
-    button.innerHTML = title; // Установка текста кнопки.
+    const button = document.createElement("button");
+    button.innerHTML = title;
 
-    // Обработчик нажатия на кнопку сброса.
     button.onclick = () => {
       if (this.game_ && this.timer) {
-        delete this.game_; // Удаление текущей игры.
-        this.stopGame(); // Остановка игры.
+        delete this.game_;
+        this.stopGame();
       }
-      this.renderStart(); // Возвращение к стартовому экрану.
+      this.renderStart();
     };
-    const element = document.getElementById(id ?? "score-board"); // Получение элемента для добавления кнопки.
-    element.append(button); // Добавление кнопки в элемент.
-
+    const element = document.getElementById(id ?? "score-board");
+    element.append(button);
   };
 
-  // Основная функция для отображения игрового интерфейса и управления игровым процессом.
   SCOREBOARD = (cubeSize) => {
-    const scoreBoard = document.getElementById("score-board"); // Получение доски счета.
-    scoreBoard.innerHTML = ""; // Очистка доски счета.
+    const scoreBoard = document.getElementById("score-board");
+    scoreBoard.innerHTML = "";
 
-    this.checkPreviewSize(); // Проверка и обновление размера предварительного просмотра.
-    this.changeCubeSizeAndAppendToScoreBoard(cubeSize); // Изменение размера куба и добавление его на доску счета.
-    this.renderNickanme(); // Рендеринг никнейма игрока.
-    this.renderTimerAndScore(); // Рендеринг таймера и счета.
-    this.renderResetButton(); // Добавление кнопки сброса игры.
-    this.renderEndGameButton(); // Добавление кнопки завершения игры.
+    this.checkPreviewSize();
+    this.changeCubeSizeAndAppendToScoreBoard(cubeSize);
+    this.renderNickanme();
+    this.renderTimerAndScore();
+    this.renderResetButton();
+    this.renderEndGameButton();
 
-    // Обработчик изменения размера окна, для корректировки размера предварительного просмотра.
     window.onresize = () => {
-      this.checkPreviewSize(); // Повторная проверка размера предварительного просмотра.
-      // Обновление стилей куба в соответствии с новым размером.
+      this.checkPreviewSize();
       this.cube.style.width = this.previewSize + "px";
       this.cube.style.height = this.previewSize + "px";
-    };
 
+      // this.cube.style.paddingTop = this.previewSize + "px";
+    };
   };
 
-  // Функция-триггер, вызываемая при успешном или неуспешном завершении действия в игре.
   trigger = (okay) => {
     if (okay) {
-      this.state.score += 1; // Увеличение счета при успешном действии.
-      // Создание новой игры с обновленными параметрами.
+      this.state.score += 1;
       this.game_ = new Game(
         this.cubeCount,
         this.cubeSize,
         this.trigger,
         this.rotate
       );
-      this.SCOREBOARD(this.cubeSize); // Обновление игрового интерфейса.
+      this.SCOREBOARD(this.cubeSize);
     } else {
-      // Наказание за неуспешное действие, например, уменьшение времени.
       this.timer.setState(this.timer.state - 10);
     }
   };
 
-  // Функция для обновления таймера и проверки условий окончания игры.
   UPDATE_TIMER = (state) => {
-    this.state.time = state.getState(); // Обновление времени игры.
-    const time = document.getElementById("timer"); // Получение элемента таймера.
-    time.innerHTML = "Оставшееся время: " + this.state.time; // Обновление отображаемого времени.
+    this.state.time = state.getState();
+    const time = document.getElementById("timer");
+    time.innerHTML = "Оставшееся время: " + this.state.time;
 
     if (this.state.time <= 0) {
-      // Действия при окончании времени: сохранение результата и переход к экрану завершения игры.
       this.state.leaderboard.push([this.state.name, this.state.score]);
       this.stopGame();
       this.renderEnd();
     }
-
   };
 
-  // Функция для рендеринга основного игрового экрана.
   renderGame = () => {
-    document.body.innerHTML = ""; // Очистка содержимого тела документа.
-    const game = document.createElement("div"); // Создание контейнера для игры.
-    game.id = "game"; // Установка идентификатора для контейнера.
-    document.body.appendChild(game); // Добавление контейнера в документ.
-  
-    // Создание и настройка доски игры и доски счета.
+    document.body.innerHTML = "";
+    const game = document.createElement("div");
+    game.id = "game";
+    document.body.appendChild(game);
+
     this.board = document.createElement("div");
     this.board.id = "game-board";
+    // Check width of the score board and set preview size
     this.scoreBoard = document.createElement("div");
     this.scoreBoard.id = "score-board";
-    this.cubeSize = this.state.size; // Установка размера куба в соответствии с выбранной сложностью.
-  
-    // Создание и настройка таймера.
+    this.cubeSize = this.state.size;
+
     const timer = document.createElement("p");
     timer.id = "timer";
     timer.style.textAlign = "center";
-    game.appendChild(timer); // Добавление таймера в контейнер игры в самом начале.
-  
-    // Добавление доски счета в DOM перед доской игры.
-    game.appendChild(this.scoreBoard);
-  
-    // Добавление доски игры в DOM.
-    game.appendChild(this.board);
-  
-    // Определение необходимости вращения кубов в зависимости от количества кубов.
+
+    document.getElementById("game").appendChild(this.board);
+    document.getElementById("game").appendChild(this.scoreBoard);
+
+    // button
+
     const rotate = this.cubeCount > 10 ? true : false;
     this.rotate = rotate;
-  
-    // Инициализация новой игры с текущими параметрами состояния.
     this.game_ = new Game(this.cubeCount, this.cubeSize, this.trigger, rotate);
-    // Рендеринг игрового интерфейса с обновленными данными.
     this.SCOREBOARD(this.cubeSize);
-  
-    // Если таймер не был ранее запущен, создаем и запускаем его.
+
     if (!this.timer) {
       this.timer = new Timer(this.state.time, this.UPDATE_TIMER);
     }
   };
-  
 
-  // Функция для рендеринга экрана окончания игры.
   renderEnd = () => {
-    document.body.innerHTML = endHTML; // Установка HTML содержимого для экрана окончания игры.
+    document.body.innerHTML = endHTML;
 
-    const gameEnd = document.getElementById("end"); // Получение контейнера для экрана окончания игры.
+    const gameEnd = document.getElementById("end");
     const gameScoreId = "game-score";
-    const score = document.getElementById(gameScoreId); // Получение элемента для отображения итогового счета.
-    score.innerHTML = this.state.score; // Вывод итогового счета.
+    const score = document.getElementById(gameScoreId);
+    score.innerHTML = this.state.score;
 
     const leaderboard_ = document.createElement("div");
     leaderboard_.id = "leaderboard";
-    gameEnd.appendChild(leaderboard_); // Добавление раздела для таблицы лидеров.
+    gameEnd.appendChild(leaderboard_);
 
     const h1 = document.createElement("h1");
-    h1.innerHTML = "Leaderboard"; // Заголовок для таблицы лидеров.
+    h1.innerHTML = "Leaderboard";
     leaderboard_.appendChild(h1);
 
-    // Добавление результатов текущей игры в хранилище и обновление таблицы лидеров.
     ls.add([this.state.name, this.state.score]);
     ls.set(ls.leaderboard);
 
     const board = document.createElement("div");
-    board.id = "res-board"; // Контейнер для отображения результатов игры.
+    board.id = "res-board";
     leaderboard_.appendChild(board);
 
-    // Формирование шапки таблицы лидеров.
     let p = document.createElement("p");
     p.innerHTML = `<div class="line" style="border-bottom: 1px solid black;"> 
-  <p>name</p>
-  <p>score</p>
-</div>`;
+      <p>name</p>
+      <p>score</p>
+    </div>`;
     board.appendChild(p);
 
-    // Добавление записей о каждом участнике в таблицу лидеров.
     for (let l of ls.leaderboard) {
       let p = document.createElement("p");
       p.innerHTML = `<div class="line"> 
-    <p>${l[0]}</p>
-    <p>${l[1]}</p>
-  </div>`;
+        <p>${l[0]}</p>
+        <p>${l[1]}</p>
+      </div>`;
       board.appendChild(p);
     }
 
-    // Добавление кнопки для возврата к главному меню.
-    this.renderResetButton("Рейтинг игроков", "Вернуться в главное меню");
-
+    this.renderResetButton("leaderboard", "Go back to main menu");
   };
 }
 
-// Создание экземпляра класса AppState для запуска приложения.
 const appState = new AppState();
+
