@@ -3,26 +3,26 @@ const getRandomColor = () => "#" + Math.floor(Math.random() * 0xffffff).toString
 
 // Функция для генерации массива случайных цветов
 // Принимает количество цветов в массиве
-const generateColors = (count) => Array.from({ length: count }, getRandomColor);
+const getArrayOfRandomColors = (count) => Array.from({ length: count }, getRandomColor);
 
-const difficulty = {
+const levelsOfDifficulty = {
   easy: {
     size: 3,
     count: 6,
     time: 80,
-    colors: generateColors(2),
+    colors: getArrayOfRandomColors(2),
   },
   medium: {
     size: 6,
     count: 12,
     time: 120,
-    colors: generateColors(4),
+    colors: getArrayOfRandomColors(4),
   },
   hard: {
     size: 9,
     count: 16,
     time: 180,
-    colors: generateColors(8),
+    colors: getArrayOfRandomColors(8),
   }
 };
 
@@ -249,7 +249,7 @@ const startHTML = `
 `;
 
 
-class LocalSTORAGE {
+class LocalStorage {
   constructor() {
     // Попытка извлечь таблицу лидеров из localStorage или инициализация пустым массивом
     this.leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
@@ -303,7 +303,7 @@ const endHTML = `
 </div>
 `;
 
-const ls = new LocalSTORAGE();
+const ls = new LocalStorage();
 
 class Error {
   constructor(message) {
@@ -349,7 +349,7 @@ class AppState {
     const input = new Input();
     input.appendTo("start_container");
 
-    const select = new ButtonSelector(Object.keys(difficulty));
+    const select = new ButtonSelector(Object.keys(levelsOfDifficulty));
     select.appendTo("start_container");
     const div = document.createElement("div");
     div.innerHTML = startHTML;
@@ -362,10 +362,10 @@ class AppState {
       if (input.state && input.state.length > 0) {
         this.state.name = input.state ?? "ANONYMOUS USER";
         this.state.difficulty = select.state;
-        this.state.size = difficulty[select.state].size;
-        this.state.time = difficulty[select.state].time;
+        this.state.size = levelsOfDifficulty[select.state].size;
+        this.state.time = levelsOfDifficulty[select.state].time;
 
-        this.cubeCount = difficulty[select.state].count;
+        this.cubeCount = levelsOfDifficulty[select.state].count;
         this.renderGame();
       } else {
         new Error(
