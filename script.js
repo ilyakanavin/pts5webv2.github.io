@@ -5,13 +5,13 @@ const getRandomColor = () => {
 const difficulty = {
   easy: {
     size: 3,
-    count: 4,
+    count: 6,
     time: 80,
     colors: [getRandomColor(), getRandomColor()],
   },
   medium: {
-    size: 4,
-    count: 6,
+    size: 6,
+    count: 12,
     time: 120,
     colors: [
       getRandomColor(),
@@ -21,8 +21,8 @@ const difficulty = {
     ],
   },
   hard: {
-    size: 5,
-    count: 8,
+    size: 9,
+    count: 16,
     time: 180,
     colors: [
       getRandomColor(),
@@ -34,7 +34,12 @@ const difficulty = {
       getRandomColor(),
       getRandomColor(),
     ],
-  }
+  },
+  impossible: {
+    size: 22,
+    count: 25,
+    time: 200,
+  },
 };
 
 class SoundEffect {
@@ -43,7 +48,7 @@ class SoundEffect {
       return SoundEffect.instance;
     } else {
       SoundEffect.instance = this;
-      this.wrong_ = new Audio("./sounds/wrong.mp3");
+      this.wrong_ = new Audio("./sounds/frog.mp3");
 
       this.cool_ = new Audio("./sounds/cool.mp3");
     }
@@ -153,7 +158,6 @@ class Cube {
       document.onmousemove = null;
     }
   };
-
 }
 const style = 0;
 
@@ -548,12 +552,6 @@ class AppState {
       this.SCOREBOARD(this.cubeSize);
     } else {
       this.timer.setState(this.timer.state - 10);
-      this.game_ = new Game(
-        this.cubeCount,
-        this.cubeSize,
-        this.trigger,
-        this.rotate
-      );
     }
   };
 
