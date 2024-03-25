@@ -10,8 +10,8 @@ const difficulty = {
     colors: [getRandomColor(), getRandomColor()],
   },
   medium: {
-    size: 6,
-    count: 12,
+    size: 4,
+    count: 8,
     time: 120,
     colors: [
       getRandomColor(),
@@ -21,8 +21,8 @@ const difficulty = {
     ],
   },
   hard: {
-    size: 9,
-    count: 16,
+    size: 5,
+    count: 10,
     time: 180,
     colors: [
       getRandomColor(),
