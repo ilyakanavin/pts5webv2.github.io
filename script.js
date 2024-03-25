@@ -26,28 +26,6 @@ const difficulty = {
   }
 };
 
-class SoundEffect {
-  constructor() {
-    // Проверка существования экземпляра класса
-    if (SoundEffect.instance) {
-      return SoundEffect.instance;
-    }
-    // Установка текущего экземпляра как экземпляра класса
-    SoundEffect.instance = this;
-
-    // Инициализация аудиофайлов
-    this.cool_ = new Audio("./sounds/cool.mp3");
-  }
-
-  // Метод для воспроизведения "приятного" звука с заданной громкостью
-  cool = () => {
-    this.cool_.volume = 0.5;
-    this.cool_.play();
-  };
-}
-
-new SoundEffect();
-
 class Cube {
   constructor(index, size, chooseCubeCallback, rotate = 0) {
     this.index = index; // Индекс куба
@@ -128,7 +106,6 @@ class Game {
       return () => {
         // Проверка, является ли куб выигрышным
         if (idx === this.gameWinningCubeIndex) {
-          new SoundEffect().cool(); // Воспроизведение звука для правильного выбора
           this.trigger(true);
         } else {
           this.trigger(false);
@@ -460,7 +437,6 @@ class AppState {
     timer.innerHTML = "Оставшееся время: " + this.state.time;
     scoreBoard.append(timer);
 
-    // Score
     const score = document.createElement("p");
     score.id = "score";
     score.style.textAlign = "center";
@@ -505,8 +481,6 @@ class AppState {
       this.checkPreviewSize();
       this.cube.style.width = this.previewSize + "px";
       this.cube.style.height = this.previewSize + "px";
-
-      // this.cube.style.paddingTop = this.previewSize + "px";
     };
   };
 
@@ -608,7 +582,7 @@ class AppState {
       board.appendChild(p);
     }
 
-    this.renderResetButton("leaderboard", "Вернуться в главное меню");
+    this.renderResetButton("Таблица лидеров", "Вернуться в главное меню");
   };
 }
 
