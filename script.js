@@ -663,7 +663,7 @@ class AppState {
     }
 
     // Добавление кнопки для возврата к главному меню.
-    this.renderResetButton("Рейтинг игроков", "Вернуться в главное меню");
+    this.renderResetButton();
 
   };
 }
