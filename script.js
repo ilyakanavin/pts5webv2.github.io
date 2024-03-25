@@ -153,6 +153,7 @@ class Cube {
       document.onmousemove = null;
     }
   };
+
 }
 const style = 0;
 
