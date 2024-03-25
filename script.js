@@ -5,13 +5,13 @@ const getRandomColor = () => {
 const difficulty = {
   easy: {
     size: 3,
-    count: 6,
+    count: 4,
     time: 80,
     colors: [getRandomColor(), getRandomColor()],
   },
   medium: {
     size: 4,
-    count: 8,
+    count: 6,
     time: 120,
     colors: [
       getRandomColor(),
@@ -22,7 +22,7 @@ const difficulty = {
   },
   hard: {
     size: 5,
-    count: 10,
+    count: 8,
     time: 180,
     colors: [
       getRandomColor(),
@@ -117,40 +117,33 @@ class Cube {
   };
 
   dragElement = (elmnt) => {
-    var pos1 = 0,
-      pos2 = 0,
-      pos3 = 0,
-      pos4 = 0;
+    var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+    // Заменим непосредственное назначение на addEventListener
     elmnt.addEventListener("mousedown", dragMouseDown);
     function dragMouseDown(e) {
       e.preventDefault();
       pos3 = e.clientX;
       pos4 = e.clientY;
-      document.onmouseup = closeDragElement;
-      document.onmousemove = elementDrag;
+      document.addEventListener("mouseup", closeDragElement);
+      document.addEventListener("mousemove", elementDrag);
     }
 
     const elementDrag = (e) => {
-      e = e;
       e.preventDefault();
-      elmnt.style.position = "absolute";
-
-      // calculate the new cursor position:
+      // Вычислим новое положение курсора
       pos1 = pos3 - e.clientX;
       pos2 = pos4 - e.clientY;
       pos3 = e.clientX;
       pos4 = e.clientY;
-
-      // calculate new position
-      var newTop = elmnt.offsetTop - pos2;
-      var newLeft = elmnt.offsetLeft - pos1;
-
-      elmnt.style.top = newTop + "px";
-      elmnt.style.left = newLeft + "px";
+      // Установим новое положение элемента
+      elmnt.style.position = "absolute";
+      elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+      elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
     };
     function closeDragElement() {
-      document.onmouseup = null;
-      document.onmousemove = null;
+        document.removeEventListener("mouseup", closeDragElement);
+        document.removeEventListener("mousemove", elementDrag);
     }
   };
 }
@@ -547,6 +540,12 @@ class AppState {
       this.SCOREBOARD(this.cubeSize);
     } else {
       this.timer.setState(this.timer.state - 10);
+      this.game_ = new Game(
+        this.cubeCount,
+        this.cubeSize,
+        this.trigger,
+        this.rotate
+      );
     }
   };
 
