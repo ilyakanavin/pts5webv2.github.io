@@ -550,32 +550,32 @@ class AppState {
     const game = document.createElement("div");
     game.id = "game";
     document.body.appendChild(game);
-
+  
     this.board = document.createElement("div");
     this.board.id = "game-board";
-    // Check width of the score board and set preview size
     this.scoreBoard = document.createElement("div");
     this.scoreBoard.id = "score-board";
     this.cubeSize = this.state.size;
-
+  
     const timer = document.createElement("p");
     timer.id = "timer";
     timer.style.textAlign = "center";
-
-    document.getElementById("game").appendChild(this.board);
+  
+    // Переместите timer перед добавлением game-board и score-board
+    document.getElementById("game").appendChild(timer);
     document.getElementById("game").appendChild(this.scoreBoard);
-
-    // button
-
+    document.getElementById("game").appendChild(this.board);
+  
     const rotate = this.cubeCount > 10 ? true : false;
     this.rotate = rotate;
     this.game_ = new Game(this.cubeCount, this.cubeSize, this.trigger, rotate);
     this.SCOREBOARD(this.cubeSize);
-
+  
     if (!this.timer) {
       this.timer = new Timer(this.state.time, this.UPDATE_TIMER);
     }
   };
+  
 
   renderEnd = () => {
     document.body.innerHTML = endHTML;
