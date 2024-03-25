@@ -4,22 +4,25 @@
   padding: 0; /* Обнуление внутренних отступов */
   box-sizing: border-box; /* Установка модели расчета размеров */
   background-color: inherit; /* Наследование цвета фона */
+  overflow: hidden; /* Скрытие содержимого, выходящего за границы элемента */
 }
 
+/* Стили для блока, имитирующего куб */
 .cube {
-  background: inherit;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
+  background: inherit; /* Наследование цвета фона */
+  display: flex; /* Использование flexbox для выравнивания содержимого */
+  justify-content: space-between; /* Распределение пространства между и вокруг содержимого */
+  flex-direction: column; /* Вертикальное направление элементов */
 
-  padding: 10px;
-  border: 1px solid #BDBDBD;
-  min-width: 1%;
-  width: 20%;
-  margin: 10px;
+  padding: 10px; /* Внутренний отступ */
+  border: 1px solid #BDBDBD; /* Граница в стиле Material Design */
+  min-width: 1%; /* Минимальная ширина */
+  width: 20%; /* Ширина элемента */
+  height: 0; /* Высота элемента */
+  /* margin: 1px; */
 
-  height: auto; /* Новое значение, делает высоту автоматической на основе содержимого */
-  position: relative;
+  padding-bottom: 20%; /* Поддержание аспектного соотношения */
+  position: relative; /* Позиционирование относительно нормального потока */
 }
 
 /* Стили для содержимого куба */
