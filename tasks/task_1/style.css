@@ -1,0 +1,55 @@
+.menu {
+    display: flex;
+    justify-content: center;
+    background-color: #007bff;
+    background-image: linear-gradient(45deg, #ff00ff, #ffcc00, #00ff00, #00ccff, #ff00ff); /* Яркий мерцающий градиент */
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    border: 3px dotted #ff0000; /* Пунктирная рамка */
+    box-shadow: 0 0 15px #ff00ff, 0 0 25px #00ff00, 0 0 35px #0000ff; /* Множественное свечение */
+}
+
+.menu .menu-item {
+    background-color: #0066cc;
+    color: white;
+    border: 2px outset #ffffff;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-shadow: 2px 2px #ff0000; /* Тень текста */
+    font-weight: bold; /* Жирный шрифт */
+    margin: 0 10px; /* Отступы между элементами меню */
+}
+
+.menu .menu-item:hover {
+    background-color: #0056b3;
+    border-color: #ffff00; /* Изменение цвета рамки при наведении */
+}
+
+.content {
+    padding: 20px;
+    text-align: center;
+    background-color: #f0f0f0;
+    border: 5px groove #ff00ff; /* Глубокая рамка */
+    margin: 10px;
+    background-image: url('path/to/your/background/image.jpg'); /* Фоновое изображение */
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+main h1, main h2 {
+    color: #007bff;
+    font-family: "Comic Sans MS", "Arial", sans-serif; /* Стильный шрифт */
+}
+
+main p {
+    line-height: 1.6;
+    font-family: "Times New Roman", serif;
+    color: #333333;
+    text-align: justify; /* Выравнивание текста по ширине */
+    border-bottom: 1px dashed #0000ff; /* Пунктирная линия под текстом */
+    padding-bottom: 10px; /* Отступ снизу */
+}
+
+

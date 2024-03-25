@@ -1,0 +1,28 @@
+.class1 {
+    background-color: lightblue;
+}
+
+.class2 {
+    background-color: lightgreen;
+}
+
+#phrase-container {
+    margin-bottom: 20px; /* Нижний отступ для контроля пробела */
+}
+
+.bold {
+    font-weight: bold;
+}
+
+#phrase-list li {
+    padding-left: 20px; /* Табуляция для подпунктов списка */
+}
+
+#phrase-list li ul {
+    list-style: none; /* Убираем стандартные маркеры */
+    padding-left: 30px; /* Дополнительный отступ для второго уровня */
+}
+
+#phrase-list li ul li {
+    list-style-type: disc; /* Используем точки в качестве маркеров */
+}
